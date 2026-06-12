@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "description": "禁忌词词典——HR沟通中应避免的升级性和对抗性词汇",
+  "levels": {
+    "escalation": {
+      "label": "升级性词汇",
+      "color": "#DC3545",
+      "description": "容易激化矛盾、引发对方防御或对抗的词汇，强烈建议替换"
+    },
+    "confrontational": {
+      "label": "对抗性词汇",
+      "color": "#FD7E14",
+      "description": "带有对抗或指责意味的词汇，建议谨慎使用"
+    }
+  },
+  "words": [
+    {
+      "word": "你必须",
+      "level": "escalation",
+      "category": "强制性命令",
+      "suggestions": ["我们建议你", "希望你能", "请你考虑"]
+    },
+    {
+      "word": "立刻",
+      "level": "escalation",
+      "category": "强制性命令",
+      "suggestions": ["尽快", "在今天内", "方便的话"]
+    },
+    {
+      "word": "马上",
+      "level": "escalation",
+      "category": "强制性命令",
+      "suggestions": ["尽快", "在方便的时候", "今天之内"]
+    },
+    {
+      "word": "否则",
+      "level": "escalation",
+      "category": "威胁性表述",
+      "suggestions": ["同时我想提醒你", "需要说明的是", "我们的期望是"]
+    },
+    {
+      "word": "后果自负",
+      "level": "escalation",
+      "category": "威胁性表述",
+      "suggestions": ["希望你认真考虑", "这对你和公司都很重要", "我们期待你的配合"]
+    },
+    {
+      "word": "别怪",
+      "level": "escalation",
+      "category": "威胁性表述",
+      "suggestions": ["希望你能理解", "这需要我们一起面对", "请重视"]
+    },
+    {
+      "word": "你不配",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["目前这个岗位的要求是", "我们需要的能力包括", "你的优势在其他方面"]
+    },
+    {
+      "word": "废物",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["（绝不能使用侮辱性词汇）", "目前表现与岗位期待存在差距"]
+    },
+    {
+      "word": "你不行",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["你在某些方面还有提升空间", "目前的挑战在于", "我们可以一起看看怎么改进"]
+    },
+    {
+      "word": "太差",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["有提升空间", "尚未达到预期", "需要进一步改善"]
+    },
+    {
+      "word": "滚",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["（绝不能使用驱逐性词汇）", "我们需要讨论你的去留安排"]
+    },
+    {
+      "word": "开除",
+      "level": "escalation",
+      "category": "刺激性法律术语",
+      "suggestions": ["解除劳动合同", "双方协商一致终止合作", "工作关系调整"]
+    },
+    {
+      "word": "辞退",
+      "level": "escalation",
+      "category": "刺激性法律术语",
+      "suggestions": ["劳动关系的调整", "协商解除", "工作安排的变动"]
+    },
+    {
+      "word": "违反规定",
+      "level": "confrontational",
+      "category": "指责性表述",
+      "suggestions": ["与公司制度存在偏差", "这次的处理方式有待改进", "我们观察到的情况是"]
+    },
+    {
+      "word": "这是你的错",
+      "level": "escalation",
+      "category": "指责性表述",
+      "suggestions": ["我们来一起分析一下原因", "事情已经发生了，我们关注如何改善"]
+    },
+    {
+      "word": "你怎么回事",
+      "level": "confrontational",
+      "category": "指责性表述",
+      "suggestions": ["最近是不是遇到了什么困难", "想和你了解一下情况", "我注意到最近的变化"]
+    },
+    {
+      "word": "你总是",
+      "level": "confrontational",
+      "category": "绝对化表述",
+      "suggestions": ["最近几次", "我们观察到", "有几次情况是这样的"]
+    },
+    {
+      "word": "你从不",
+      "level": "confrontational",
+      "category": "绝对化表述",
+      "suggestions": ["目前还没有看到", "这方面还需要加强", "我们期待你能"]
+    },
+    {
+      "word": "跟你说了多少遍",
+      "level": "confrontational",
+      "category": "指责性表述",
+      "suggestions": ["我们上次沟通后", "之前提到过", "再次提醒一下"]
+    },
+    {
+      "word": "随便你",
+      "level": "escalation",
+      "category": "消极应对",
+      "suggestions": ["这取决于你的选择", "你可以根据自己的情况决定", "最后决定权在你"]
+    },
+    {
+      "word": "不想干就",
+      "level": "escalation",
+      "category": "胁迫性表述",
+      "suggestions": ["如果你对目前岗位有顾虑", "我们可以一起探讨职业发展", "公司尊重每位员工的选择"]
+    },
+    {
+      "word": "没办法",
+      "level": "confrontational",
+      "category": "消极表述",
+      "suggestions": ["目前的情况是", "我们面临的挑战是", "公司做出的艰难决定是"]
+    },
+    {
+      "word": "公司不需要你",
+      "level": "escalation",
+      "category": "侮辱性表述",
+      "suggestions": ["公司正在进行业务调整", "目前的岗位结构需要优化", "你的岗位受业务变化影响"]
+    },
+    {
+      "word": "你知道后果",
+      "level": "escalation",
+      "category": "威胁性表述",
+      "suggestions": ["希望你充分了解目前的状况", "这对双方都很重要", "我想明确说明下一步的安排"]
+    },
+    {
+      "word": "看着办",
+      "level": "escalation",
+      "category": "威胁性表述",
+      "suggestions": ["请你认真考虑后回复我", "我们给你时间思考", "期待你的反馈"]
+    }
+  ]
+}

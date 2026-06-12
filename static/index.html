@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConflictCompass - AI 辅助 HR 沟通话术</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- 左侧导航 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">🧭</div>
+            <div class="brand-text">
+                <h1>ConflictCompass</h1>
+                <span>AI 辅助 HR 沟通话术</span>
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <a class="nav-item active" data-page="workbench" onclick="switchPage('workbench')">
+                <span class="nav-icon">🎯</span>
+                <span>话术工作台</span>
+            </a>
+            <a class="nav-item" data-page="check" onclick="switchPage('check')">
+                <span class="nav-icon">🔍</span>
+                <span>合规检查</span>
+            </a>
+            <a class="nav-item" data-page="history" onclick="switchPage('history')">
+                <span class="nav-icon">📋</span>
+                <span>历史记录</span>
+            </a>
+            <a class="nav-item" data-page="templates" onclick="switchPage('templates')">
+                <span class="nav-icon">⚙️</span>
+                <span>模板管理</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="api-status" id="apiStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">检查服务状态...</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 右侧内容区 -->
+    <main class="main-content">
+
+        <!-- ========== 话术工作台 ========== -->
+        <section class="page active" id="page-workbench">
+            <div class="page-header">
+                <h2>🎯 话术工作台</h2>
+                <p>选择沟通场景，AI 为您生成专业合规的结构化话术</p>
+            </div>
+
+            <!-- Step 1: 生命周期选择 -->
+            <div class="card" id="step-lifecycle">
+                <div class="card-header">
+                    <span class="step-badge">Step 1</span>
+                    <h3>选择生命周期阶段</h3>
+                </div>
+                <div class="lifecycle-tabs" id="lifecycleTabs">
+                    <button class="lc-tab" data-stage="入职融入" onclick="selectLifecycle('入职融入')">
+                        <span class="lc-icon">🎓</span> 入职融入
+                    </button>
+                    <button class="lc-tab" data-stage="在岗管理" onclick="selectLifecycle('在岗管理')">
+                        <span class="lc-icon">💼</span> 在岗管理
+                    </button>
+                    <button class="lc-tab" data-stage="纪律与冲突" onclick="selectLifecycle('纪律与冲突')">
+                        <span class="lc-icon">⚡</span> 纪律与冲突
+                    </button>
+                    <button class="lc-tab" data-stage="异动与调整" onclick="selectLifecycle('异动与调整')">
+                        <span class="lc-icon">🔄</span> 异动与调整
+                    </button>
+                    <button class="lc-tab" data-stage="离职与善后" onclick="selectLifecycle('离职与善后')">
+                        <span class="lc-icon">🚪</span> 离职与善后
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: 场景选择（动态填充） -->
+            <div class="card hidden" id="step-scenario">
+                <div class="card-header">
+                    <span class="step-badge">Step 2</span>
+                    <h3>选择具体场景</h3>
+                </div>
+                <div class="scenario-grid" id="scenarioGrid"></div>
+            </div>
+
+            <!-- Step 3: 沟通背景 -->
+            <div class="card hidden" id="step-details">
+                <div class="card-header">
+                    <span class="step-badge">Step 3</span>
+                    <h3>填写沟通背景</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>对方职级</label>
+                        <select id="inputLevel">
+                            <option value="">请选择</option>
+                            <option value="一线员工">一线员工</option>
+                            <option value="基层管理">基层管理</option>
+                            <option value="中层管理">中层管理</option>
+                            <option value="高层管理">高层管理</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>对方情绪预判</label>
+                        <select id="inputEmotion">
+                            <option value="">请选择</option>
+                            <option value="平静">平静</option>
+                            <option value="焦虑">焦虑</option>
+                            <option value="防御">防御</option>
+                            <option value="愤怒">愤怒</option>
+                            <option value="悲伤">悲伤</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>期望语气</label>
+                        <select id="inputTone">
+                            <option value="">请选择</option>
+                            <option value="正式严肃">正式严肃</option>
+                            <option value="温和关切">温和关切</option>
+                            <option value="坚定但尊重">坚定但尊重</option>
+                            <option value="鼓励支持">鼓励支持</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>补充信息（可选）</label>
+                        <textarea id="inputExtra" rows="3" placeholder="例如：该员工已连续两个季度绩效不达标，上周有三次迟到记录..."></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="generateScript()" id="btnGenerate">
+                        ✨ 生成话术
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: 生成结果 -->
+            <div class="card hidden" id="step-result">
+                <div class="card-header">
+                    <span class="step-badge result">结果</span>
+                    <h3>生成结果</h3>
+                    <div class="card-header-actions">
+                        <button class="btn btn-sm" onclick="copyScript()">📋 复制话术</button>
+                        <button class="btn btn-sm btn-primary" onclick="showOptimizePanel()">🔧 优化话术</button>
+                    </div>
+                </div>
+                <div class="script-output" id="scriptOutput"></div>
+
+                <!-- 对方反应预判 -->
+                <div class="predictions-section" id="predictionsSection">
+                    <h4>💬 对方反应预判</h4>
+                    <div id="predictionsList"></div>
+                </div>
+
+                <!-- 禁忌词提醒 -->
+                <div class="taboo-alerts" id="tabooAlerts"></div>
+            </div>
+
+            <!-- 优化面板（嵌入在结果下方） -->
+            <div class="card hidden" id="step-optimize">
+                <div class="card-header">
+                    <span class="step-badge optimize">优化</span>
+                    <h3>话术优化</h3>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>优化方向</label>
+                        <select id="inputOptimizeDirection">
+                            <option value="更温和">更温和</option>
+                            <option value="更专业">更专业</option>
+                            <option value="更坚定">更坚定</option>
+                            <option value="更简洁">更简洁</option>
+                            <option value="强化合规">强化合规</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>补充要求（可选）</label>
+                        <textarea id="inputOptimizeNotes" rows="2" placeholder="例如：加上关于 N+1 经济补偿方案的说明..."></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="optimizeScript()" id="btnOptimize">
+                        🔧 开始优化
+                    </button>
+                    <button class="btn btn-secondary" onclick="hideOptimizePanel()">取消</button>
+                </div>
+                <div class="script-output hidden" id="optimizedOutput"></div>
+                <div class="changes-summary hidden" id="changesSummary"></div>
+            </div>
+        </section>
+
+        <!-- ========== 合规检查 ========== -->
+        <section class="page" id="page-check">
+            <div class="page-header">
+                <h2>🔍 合规检查</h2>
+                <p>粘贴话术文本，AI 逐条比对劳动法红线并给出禁忌词预警</p>
+            </div>
+            <div class="card">
+                <div class="form-group form-group-full">
+                    <label>粘贴待检查的话术文本</label>
+                    <textarea id="checkInput" rows="8" placeholder="请将话术全文粘贴到这里...&#10;&#10;支持直接粘贴【开场】【核心】【收尾】格式的话术"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="runCheck()" id="btnCheck">
+                        🔍 开始检查
+                    </button>
+                </div>
+            </div>
+
+            <!-- 检查结果 -->
+            <div class="card hidden" id="checkResultCard">
+                <div class="card-header"><h3>检查结果</h3></div>
+                <div class="check-summary" id="checkSummary"></div>
+                <div class="check-results" id="checkResults"></div>
+                <div class="taboo-alerts" id="checkTabooAlerts"></div>
+            </div>
+        </section>
+
+        <!-- ========== 历史记录 ========== -->
+        <section class="page" id="page-history">
+            <div class="page-header">
+                <h2>📋 历史记录</h2>
+                <p>浏览和复用之前生成的话术</p>
+            </div>
+            <div class="card">
+                <div class="history-filters">
+                    <div class="form-group" style="flex:1">
+                        <select id="historyStageFilter" onchange="loadHistory()">
+                            <option value="">全部生命周期</option>
+                            <option value="入职融入">入职融入</option>
+                            <option value="在岗管理">在岗管理</option>
+                            <option value="纪律与冲突">纪律与冲突</option>
+                            <option value="异动与调整">异动与调整</option>
+                            <option value="离职与善后">离职与善后</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2">
+                        <input type="text" id="historyKeyword" placeholder="搜索关键词..." onkeyup="debounceSearch()">
+                    </div>
+                </div>
+            </div>
+            <div id="historyList">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>暂无历史记录</p>
+                    <span>生成的话术会自动保存在这里</span>
+                </div>
+            </div>
+
+            <!-- 历史详情弹窗 -->
+            <div class="modal-overlay hidden" id="historyModal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">话术详情</h3>
+                        <button class="modal-close" onclick="closeHistoryModal()">✕</button>
+                    </div>
+                    <div class="modal-body" id="modalBody"></div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="reuseFromHistory()">📋 加载到工作台</button>
+                        <button class="btn btn-secondary" onclick="closeHistoryModal()">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 模板管理 ========== -->
+        <section class="page" id="page-templates">
+            <div class="page-header">
+                <h2>⚙️ 模板管理</h2>
+                <p>管理场景模板，让常用场景一键填充</p>
+            </div>
+            <div class="form-actions" style="margin-bottom:16px">
+                <button class="btn btn-primary" onclick="showTemplateForm()">+ 新建模板</button>
+            </div>
+            <div id="templateList">
+                <div class="empty-state">
+                    <div class="empty-icon">📂</div>
+                    <p>加载中...</p>
+                </div>
+            </div>
+
+            <!-- 模板编辑弹窗 -->
+            <div class="modal-overlay hidden" id="templateModal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3 id="templateModalTitle">新建模板</h3>
+                        <button class="modal-close" onclick="closeTemplateModal()">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>模板名称 *</label>
+                            <input type="text" id="tplName" placeholder="例如：裁员通知（温和版）">
+                        </div>
+                        <div class="form-group">
+                            <label>所属生命周期 *</label>
+                            <select id="tplStage">
+                                <option value="">请选择</option>
+                                <option value="入职融入">入职融入</option>
+                                <option value="在岗管理">在岗管理</option>
+                                <option value="纪律与冲突">纪律与冲突</option>
+                                <option value="异动与调整">异动与调整</option>
+                                <option value="离职与善后">离职与善后</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>场景描述 *</label>
+                            <input type="text" id="tplScenario" placeholder="例如：裁员通知（针对老员工）">
+                        </div>
+                        <div class="form-group">
+                            <label>默认语气</label>
+                            <select id="tplTone">
+                                <option value="正式严肃">正式严肃</option>
+                                <option value="温和关切">温和关切</option>
+                                <option value="坚定但尊重">坚定但尊重</option>
+                                <option value="鼓励支持">鼓励支持</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>默认补充说明</label>
+                            <textarea id="tplNotes" rows="3" placeholder="此场景常用的补充说明..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="btnSaveTemplate" onclick="saveTemplate()">保存</button>
+                        <button class="btn btn-secondary" onclick="closeTemplateModal()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast 提示 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
